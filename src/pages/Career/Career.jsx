@@ -16,20 +16,17 @@ import {
   FaClock,
   FaEnvelope,
   FaSearch,
+  FaArrowRight,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-/*
-  NOTE: This file is a refactored, more accessible and clearer version of the original
-  Career.jsx component. I have preserved the content (job titles, descriptions, requirements,
-  apply instructions and emails) while improving structure, semantics, accessibility, and UX.
-*/
+/**
+ * BRAND COLORS:
+ * Te Papa Green: #203A43 (Deep, professional)
+ * Shamrock: #40E687 (Vibrant, growth)
+ * Wild Sand: #F4F4F4 (Clean background)
+ */
 
-/* ----------------------------------------------------------
-   Job listings (content preserved from the original page)
-   Keep this array content identical to the original repository
-   if you intend to fully replace the file in-place.
-   ---------------------------------------------------------- */
 const jobListings = [
   {
     title: "Business Development Executive",
@@ -54,7 +51,7 @@ const jobListings = [
     type: "Full-Time",
     salary: "Competitive",
     description:
-      "We're seeking an enthusiastic and knowledgeable Student Consultant to join our team in Sylhet. You'll be instrumental in guiding students through their academic journeys, providing expert advice on course selection, university applications, and career pathways. This role requires strong communication skills and a genuine passion for helping students achieve their educational goals.",
+      "We're seeking an enthusiastic and knowledgeable Student Consultant to join our team in Sylhet. You'll be instrumental in guiding students through their academic journeys, providing expert advice on course selection, university applications, and career pathways.",
     requirements: [
       "Experience in educational consulting, advising, or a related field.",
       "Excellent interpersonal and active listening skills.",
@@ -71,30 +68,25 @@ const jobListings = [
     type: "Full-Time",
     salary: "Competitive",
     description:
-      "We're seeking a highly motivated Services Development Executive to join our team in London. You'll be responsible for identifying new Services opportunities, building strong client relationships, and driving revenue growth. This role requires a proactive approach to sales and a deep understanding of market dynamics.",
+      "We're seeking a highly motivated Services Development Executive to join our team in London. You'll be responsible for identifying new Services opportunities, building strong client relationships, and driving revenue growth.",
     requirements: [
       "Proven experience in Services development, sales, or a related field.",
       "Excellent communication, negotiation, and interpersonal skills.",
       "Ability to identify and cultivate new leads and opportunities.",
       "Strong understanding of sales principles and customer relationship management.",
-      "Self-motivated with a results-driven approach.",
     ],
     applyInstructions:
       "Please send your CV and a brief cover letter outlining your relevant experience and why you are interested in this role to:",
     applyEmail: "info@lyt-global.com",
   },
-  // Other positions from the original file (e.g. commented-out roles) have been left out here.
-  // If you want to preserve every commented role exactly as in repo, paste them into this array.
 ];
 
 export default function Career() {
   const [query, setQuery] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [selectedJob, setSelectedJob] = useState(null);
-
   const navigate = useNavigate();
 
-  // Filter jobs using useMemo for performance; still preserves content exactly.
   const filteredJobs = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return jobListings;
@@ -112,223 +104,203 @@ export default function Career() {
   };
 
   const handleApplyClick = (job) => {
-    // If job has a specific applyEmail, open mail client with prefilled subject
     if (job?.applyEmail) {
       const subject = encodeURIComponent(`Application for ${job.title}`);
       window.location.href = `mailto:${job.applyEmail}?subject=${subject}`;
       return;
     }
-    // fallback: navigate to the existing application route in the app
     navigate("/career/apply");
   };
 
-  const onSearchKeyDown = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      // search is reactive, so no extra action needed; keep focus for accessibility
-    }
-  };
-
   return (
-    <main className="mt-3" aria-labelledby="career-heading">
-      <div className="container-fluid mt-5 bg-light bg-gradient shadow">
-        <div
-          className="p-4 p-md-5 mb-4 text-white rounded featured"
-          style={{ backgroundColor: "#29a469" }}
-        >
-          <div className="col-md-12 px-0">
-            <h1 id="career-heading" className="pt-5 display-4 font-italic text-center">
-              Career
-            </h1>
-            <p className="text-center text-light fst-italic mb-0">
-              Join Our Team — discover current opportunities below
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <Container className="py-4">
-        <section aria-labelledby="join-heading" className="mb-4">
-          <h2 id="join-heading" className="text-center mb-3 text-uppercase fw-bold">
-            Join Our Team
-          </h2>
-          <p className="text-center text-muted mb-4">
-            We are looking for talented individuals who are passionate about innovation and creativity. Find your next career opportunity below.
+    <main style={{ backgroundColor: "#F4F4F4", minHeight: "100vh" }}>
+      {/* --- HERO SECTION --- */}
+      <section 
+        className="position-relative text-white overflow-hidden"
+        style={{
+          background: "linear-gradient(135deg, #203A43 0%, #2C5364 100%)",
+          padding: "120px 0 80px",
+          marginBottom: "40px"
+        }}
+      >
+        {/* Subtle Background Pattern/Overlay */}
+        <div 
+          style={{
+            position: "absolute",
+            top: 0, left: 0, right: 0, bottom: 0,
+            opacity: 0.1,
+            backgroundImage: `url('https://www.transparenttextures.com/patterns/carbon-fibre.png')`,
+            pointerEvents: "none"
+          }}
+        />
+        
+        <Container className="position-relative text-center">
+          <Badge bg="success" className="mb-3 px-3 py-2 text-uppercase fw-bold" style={{ backgroundColor: "#40E687", color: "#203A43" }}>
+            We're Hiring
+          </Badge>
+          <h1 className="display-3 fw-bold mb-3">Shape the Future with Us</h1>
+          <p className="lead opacity-75 mx-auto mb-5" style={{ maxWidth: "700px" }}>
+            Join LYT Global and help us build intelligent solutions for a more connected world. 
+            Discover your next career move below.
           </p>
 
-          <div className="d-flex justify-content-center mb-4">
-            <Form onSubmit={(e) => e.preventDefault()} className="w-100 w-md-50">
-              <InputGroup>
+          {/* Integrated Search Bar */}
+          <div className="d-flex justify-content-center">
+            <div className="shadow-lg p-2 rounded-pill bg-white" style={{ maxWidth: "600px", width: "100%" }}>
+              <InputGroup className="border-0">
+                <InputGroup.Text className="bg-transparent border-0 ps-4">
+                  <FaSearch className="text-muted" />
+                </InputGroup.Text>
                 <Form.Control
-                  type="search"
-                  placeholder="Search by title, location, or job type"
+                  className="border-0 shadow-none py-2"
+                  placeholder="Search by role or location..."
                   aria-label="Search jobs"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  onKeyDown={onSearchKeyDown}
                 />
-                <Button
-                  variant="outline-secondary"
-                  aria-label="Search"
-                  onClick={() => {
-                    // input is reactive; this keeps the button interactive for screen reader users
-                    document.activeElement.blur();
-                  }}
+                <Button 
+                  className="rounded-pill px-4 ms-2"
+                  style={{ backgroundColor: "#203A43", border: "none" }}
                 >
-                  <FaSearch /> <span className="ms-2">Search</span>
+                  Find Jobs
                 </Button>
               </InputGroup>
-            </Form>
+            </div>
           </div>
-        </section>
+        </Container>
+      </section>
 
-        <section aria-labelledby="listings-heading">
-          <h3 id="listings-heading" className="visually-hidden">
-            Job listings
-          </h3>
+      {/* --- JOB LISTINGS --- */}
+      <Container className="pb-5">
+        <div className="d-flex align-items-center justify-content-between mb-4">
+          <h2 className="h3 fw-bold text-dark mb-0">Open Positions</h2>
+          <span className="text-muted">{filteredJobs.length} opportunities found</span>
+        </div>
 
-          <Row xs={1} md={2} lg={3} className="g-4">
-            {filteredJobs.length > 0 ? (
-              filteredJobs.map((job, idx) => (
-                <Col key={idx}>
-                  <article
-                    className="h-100"
-                    aria-labelledby={`job-title-${idx}`}
-                    role="article"
-                  >
-                    <Card className="h-100 shadow-sm border-0">
-                      <Card.Body className="d-flex flex-column">
-                        <Card.Title id={`job-title-${idx}`} className="h5">
-                          <FaBriefcase className="me-2" aria-hidden />
-                          {job.title}
-                        </Card.Title>
+        <Row xs={1} md={2} lg={3} className="g-4">
+          {filteredJobs.length > 0 ? (
+            filteredJobs.map((job, idx) => (
+              <Col key={idx}>
+                <Card 
+                  className="h-100 border-0 shadow-sm transition-hover" 
+                  style={{ 
+                    borderRadius: "16px",
+                    transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                    cursor: "pointer"
+                  }}
+                  onClick={() => handleShowDetails(job)}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-5px)";
+                    e.currentTarget.style.boxShadow = "0 10px 20px rgba(0,0,0,0.1)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow = "0 4px 6px rgba(0,0,0,0.05)";
+                  }}
+                >
+                  <Card.Body className="p-4 d-flex flex-column">
+                    <div className="mb-3">
+                      <Badge className="me-2" style={{ backgroundColor: "#E8F5E9", color: "#2E7D32" }}>
+                        {job.type}
+                      </Badge>
+                      <Badge style={{ backgroundColor: "#E3F2FD", color: "#1976D2" }}>
+                        {job.location}
+                      </Badge>
+                    </div>
 
-                        <div className="mb-2 text-muted small">
-                          <span className="me-3">
-                            <FaMapMarkerAlt className="me-1" aria-hidden />
-                            {job.location}
-                          </span>
-                          <span>
-                            <FaClock className="me-1" aria-hidden />
-                            {job.type}
-                          </span>
-                        </div>
+                    <Card.Title className="fw-bold mb-3 h5" style={{ color: "#203A43" }}>
+                      {job.title}
+                    </Card.Title>
 
-                        <Card.Text className="text-muted" style={{ flex: 1 }}>
-                          {job.description.length > 150
-                            ? `${job.description.substring(0, 150).trim()}…`
-                            : job.description}
-                        </Card.Text>
+                    <Card.Text className="text-muted mb-4" style={{ fontSize: "0.95rem", flex: 1 }}>
+                      {job.description.substring(0, 120)}...
+                    </Card.Text>
 
-                        <div className="mt-3 d-flex align-items-center justify-content-between">
-                          <div>
-                            <Button
-                              variant="dark"
-                              onClick={() => handleShowDetails(job)}
-                              aria-controls="job-details-modal"
-                            >
-                              Details
-                            </Button>
-                          </div>
-
-                          <div className="text-end">
-                            {job.salary && <Badge bg="secondary" className="me-2">{job.salary}</Badge>}
-                            <Button
-                              className="primaryBtn"
-                              onClick={() => handleApplyClick(job)}
-                              aria-label={`Apply for ${job.title}`}
-                            >
-                              Apply Now
-                            </Button>
-                          </div>
-                        </div>
-                      </Card.Body>
-                    </Card>
-                  </article>
-                </Col>
-              ))
-            ) : (
-              <Col>
-                <div className="p-5 text-center border rounded-3">
-                  <p className="mb-2 fw-semibold">No jobs match your search criteria.</p>
-                  <p className="text-muted mb-0">Try removing filters or checking back later.</p>
-                </div>
+                    <div className="mt-auto pt-3 border-top d-flex align-items-center justify-content-between">
+                      <span className="fw-bold text-dark">{job.salary}</span>
+                      <Button 
+                        variant="link" 
+                        className="p-0 text-decoration-none fw-bold"
+                        style={{ color: "#203A43" }}
+                      >
+                        Details <FaArrowRight size={12} className="ms-1" />
+                      </Button>
+                    </div>
+                  </Card.Body>
+                </Card>
               </Col>
-            )}
-          </Row>
-        </section>
-
-        {/* Job Details Modal */}
-        <Modal
-          id="job-details-modal"
-          show={showModal}
-          onHide={() => setShowModal(false)}
-          aria-labelledby="job-details-title"
-        >
-          <Modal.Header closeButton>
-            <Modal.Title id="job-details-title">{selectedJob?.title}</Modal.Title>
-          </Modal.Header>
-
-          <Modal.Body>
-            <p className="mb-1">
-              <FaMapMarkerAlt className="me-2" /> <strong>Location:</strong> {selectedJob?.location}
-            </p>
-            <p className="mb-3">
-              <FaClock className="me-2" /> <strong>Type:</strong> {selectedJob?.type}
-            </p>
-
-            <section aria-labelledby="job-desc-heading" className="mb-3">
-              <h4 id="job-desc-heading" className="h6">Job description</h4>
-              <p className="mb-2">{selectedJob?.description}</p>
-            </section>
-
-            <section aria-labelledby="job-req-heading" className="mb-3">
-              <h4 id="job-req-heading" className="h6">Requirements</h4>
-              <ul>
-                {selectedJob?.requirements?.map((req, i) => (
-                  <li key={i}>{req}</li>
-                ))}
-              </ul>
-            </section>
-
-            {selectedJob?.applyInstructions && (
-              <section aria-labelledby="job-apply-heading">
-                <h4 id="job-apply-heading" className="h6">To apply</h4>
-                <p className="mb-1">{selectedJob.applyInstructions}</p>
-                {selectedJob?.applyEmail && (
-                  <p className="mb-0">
-                    <a
-                      href={`mailto:${selectedJob.applyEmail}`}
-                      className="text-decoration-none"
-                    >
-                      <FaEnvelope className="me-2" />
-                      {selectedJob.applyEmail}
-                    </a>
-                  </p>
-                )}
-              </section>
-            )}
-          </Modal.Body>
-
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowModal(false)}>
-              Close
-            </Button>
-            {selectedJob && (
-              <Button
-                className="primaryBtn"
-                onClick={() => {
-                  handleApplyClick(selectedJob);
-                  setShowModal(false);
-                }}
-                aria-label={`Apply for ${selectedJob.title}`}
-              >
-                Apply Now
-              </Button>
-            )}
-          </Modal.Footer>
-        </Modal>
+            ))
+          ) : (
+            <Col xs={12}>
+              <div className="p-5 text-center bg-white rounded-4 shadow-sm">
+                <p className="mb-0 text-muted">No positions match your current search.</p>
+              </div>
+            </Col>
+          )}
+        </Row>
       </Container>
+
+      {/* --- JOB DETAILS MODAL --- */}
+      <Modal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        centered
+        size="lg"
+        contentClassName="border-0 shadow-lg"
+        style={{ borderRadius: "20px" }}
+      >
+        <Modal.Header closeButton className="border-0 px-4 pt-4">
+          <div>
+            <Modal.Title className="fw-bold h3" style={{ color: "#203A43" }}>
+              {selectedJob?.title}
+            </Modal.Title>
+            <div className="mt-2 text-muted">
+              <FaMapMarkerAlt className="me-1" /> {selectedJob?.location} • <FaClock className="ms-3 me-1" /> {selectedJob?.type}
+            </div>
+          </div>
+        </Modal.Header>
+
+        <Modal.Body className="px-4 pb-4">
+          <div className="mb-4">
+            <h5 className="fw-bold mb-3">Description</h5>
+            <p className="text-muted leading-relaxed">{selectedJob?.description}</p>
+          </div>
+
+          <div className="mb-4">
+            <h5 className="fw-bold mb-3">Key Requirements</h5>
+            <ul className="text-muted">
+              {selectedJob?.requirements?.map((req, i) => (
+                <li key={i} className="mb-2">{req}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="p-4 rounded-3" style={{ backgroundColor: "#F8F9FA", borderLeft: "4px solid #40E687" }}>
+            <h5 className="fw-bold h6">How to Apply</h5>
+            <p className="small text-muted mb-3">{selectedJob?.applyInstructions}</p>
+            <a 
+              href={`mailto:${selectedJob?.applyEmail}`} 
+              className="fw-bold text-decoration-none d-flex align-items-center"
+              style={{ color: "#203A43" }}
+            >
+              <FaEnvelope className="me-2" /> {selectedJob?.applyEmail}
+            </a>
+          </div>
+        </Modal.Body>
+
+        <Modal.Footer className="border-0 px-4 pb-4">
+          <Button variant="light" onClick={() => setShowModal(false)} className="px-4">
+            Close
+          </Button>
+          <Button 
+            className="px-5 border-0"
+            style={{ backgroundColor: "#203A43" }}
+            onClick={() => handleApplyClick(selectedJob)}
+          >
+            Apply Now
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </main>
   );
 }
