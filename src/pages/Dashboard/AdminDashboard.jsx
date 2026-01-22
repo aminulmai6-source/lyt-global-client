@@ -3,13 +3,16 @@ import { useDispatch } from "react-redux";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { logout } from "../../redux/Features/Auth/AuthSlice";
 import { useLogoutUserMutation } from "../../redux/Features/Auth/AuthApi";
+import logo from "../../assets/images/logo.png";
 
 const navItems = [
   { label: "Dashboard", path: "/dashboard/admin" },
-  { label: "Manage University", path: "/dashboard/manage-university" },
+  { label: "All Cases", path: "/dashboard/admin/cases" },
   { label: "All Users", path: "/dashboard/manage-users" },
-  { label: "Add University", path: "/dashboard/add-university" },
+  { label: "System Settings", path: "/dashboard/settings" },
+  { label: "Reports", path: "/dashboard/admin/reports" },
 ];
+
 const AdminDashboard = () => {
   const [logoutUser] = useLogoutUserMutation();
   const dispatch = useDispatch();
@@ -24,14 +27,15 @@ const AdminDashboard = () => {
       console.error("Failed to log out", error);
     }
   };
+
   return (
     <div className="space-y-5 bg-white p-8 md:h-screen flex flex-col justify-between">
       <div>
-        <div className="nav__logo">
+        <div className="nav__logo flex flex-col items-center">
           <Link to="/">
-            Next Buy Shop<span>.</span>
+            <img src={logo} alt="LYT Global" className="h-16 mb-2" />
           </Link>
-          <p className="text-xs italic">Admin dashboard</p>
+          <p className="text-xs italic text-gray-600">Admin Portal</p>
         </div>
         <hr className="mt-5" />
         <ul className="space-y-5 pt-5">
@@ -55,7 +59,7 @@ const AdminDashboard = () => {
         <hr className="mb-3" />
         <button
           onClick={handleLogout}
-          className="text-white bg-primary font-medium px-5 py-1 rounded-sm"
+          className="text-white bg-blue-600 hover:bg-blue-700 font-medium px-5 py-2 rounded-sm w-full"
         >
           Logout
         </button>
