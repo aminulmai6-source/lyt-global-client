@@ -20,6 +20,8 @@ import Students from "../pages/Students/Students";
 import MyCases from "../pages/Dashboard/Cases/MyCases";
 import CaseDetails from "../pages/Dashboard/Cases/CaseDetails";
 import GenerateDocuments from "../pages/Dashboard/Documents/GenerateDocuments";
+import DemoDashboard from "../pages/Demo/DemoDashboard";
+import DemoDocuments from "../pages/Demo/DemoDocuments";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +49,16 @@ const router = createBrowserRouter([
         element: <Login />,
       },
     ],
+  },
+
+  // Demo Dashboard (no auth required)
+  {
+    path: "/demo-dashboard",
+    element: <DemoDashboard />,
+  },
+  {
+    path: "/demo-documents",
+    element: <DemoDocuments />,
   },
 
   // {
