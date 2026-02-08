@@ -263,10 +263,10 @@ const ContactUs = () => {
                         <li>
                           UK OFFICE:
                           <a
-                            href="tel:+447448608788"
+                            href="tel:+442036338971"
                             className="contact-link text-black"
                           >
-                            +447448608788
+                            +442036338971
                           </a>
                         </li>
                         <li>
