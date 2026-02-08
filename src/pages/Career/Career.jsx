@@ -29,51 +29,36 @@ import { useNavigate } from "react-router-dom";
 
 const jobListings = [
   {
-    title: "Business Development Executive",
+    title: "Sales & Marketing Executive",
     location: "London, UK",
     type: "Full-Time",
-    salary: "Competitive",
+    salary: "Competitive + Commission",
     description:
-      "We're looking for results-driven Business Development Executive to join our team. You will be responsible for identifying new business opportunities, building relationships with potential clients and partners, and contributing to our growth strategy.",
+      "We're seeking a dynamic Sales & Marketing Executive to join our UK office. You will drive revenue growth through strategic sales initiatives, develop marketing campaigns, and build lasting client relationships in the education sector. This role requires a proactive individual with a passion for achieving targets and expanding market presence.",
     requirements: [
-      "Proven experience in business development, sales, or a related field.",
-      "Excellent communication and negotiation skills.",
-      "Ability to develop and maintain client relationships.",
-      "Strong analytical and problem solving abilities.",
+      "Proven experience in sales and marketing, preferably in education or services sector.",
+      "Excellent communication, negotiation, and presentation skills.",
+      "Ability to develop and execute marketing strategies.",
+      "Strong analytical skills and results-driven mindset.",
+      "Experience with CRM systems and digital marketing tools.",
     ],
     applyInstructions:
       "Please send your CV and a brief cover letter outlining your relevant experience and why you are interested in this role to:",
     applyEmail: "info@lyt-global.com",
   },
   {
-    title: "Student Consultant",
-    location: "Sylhet, BD",
+    title: "Student Counsellor",
+    location: "Sylhet, Bangladesh",
     type: "Full-Time",
     salary: "Competitive",
     description:
-      "We're seeking an enthusiastic and knowledgeable Student Consultant to join our team in Sylhet. You'll be instrumental in guiding students through their academic journeys, providing expert advice on course selection, university applications, and career pathways.",
+      "Join our Bangladesh office as a Student Counsellor and play a pivotal role in guiding students towards their academic dreams. You'll provide personalized counseling, assist with university applications, course selection, and help students navigate their educational pathways with expert advice and support.",
     requirements: [
-      "Experience in educational consulting, advising, or a related field.",
+      "Experience in educational counseling, student advising, or related field.",
       "Excellent interpersonal and active listening skills.",
-      "Strong understanding of various educational systems and admission processes.",
+      "Strong understanding of international education systems and admission processes.",
       "Ability to empathize with students and provide personalized guidance.",
-    ],
-    applyInstructions:
-      "Please send your CV and a brief cover letter outlining your relevant experience and why you are interested in this role to:",
-    applyEmail: "info@lyt-global.com",
-  },
-  {
-    title: "Services Development Executive",
-    location: "London, UK",
-    type: "Full-Time",
-    salary: "Competitive",
-    description:
-      "We're seeking a highly motivated Services Development Executive to join our team in London. You'll be responsible for identifying new Services opportunities, building strong client relationships, and driving revenue growth.",
-    requirements: [
-      "Proven experience in Services development, sales, or a related field.",
-      "Excellent communication, negotiation, and interpersonal skills.",
-      "Ability to identify and cultivate new leads and opportunities.",
-      "Strong understanding of sales principles and customer relationship management.",
+      "Proficiency in English and Bengali languages.",
     ],
     applyInstructions:
       "Please send your CV and a brief cover letter outlining your relevant experience and why you are interested in this role to:",
@@ -173,20 +158,21 @@ export default function Career() {
       {/* --- JOB LISTINGS --- */}
       <Container className="pb-5">
         <div className="d-flex align-items-center justify-content-between mb-4">
-          <h2 className="h3 fw-bold text-dark mb-0">Open Positions</h2>
+          <h2 className="h3 fw-bold text-dark mb-0">Vacant Positions</h2>
           <span className="text-muted">{filteredJobs.length} opportunities found</span>
         </div>
 
-        <Row xs={1} md={2} lg={3} className="g-4">
+        <Row xs={1} md={2} lg={2} className="g-4 justify-content-center">
           {filteredJobs.length > 0 ? (
             filteredJobs.map((job, idx) => (
-              <Col key={idx}>
+              <Col key={idx} lg={6} md={6}>
                 <Card 
                   className="h-100 border-0 shadow-sm transition-hover" 
                   style={{ 
                     borderRadius: "16px",
                     transition: "transform 0.2s ease, box-shadow 0.2s ease",
-                    cursor: "pointer"
+                    cursor: "pointer",
+                    borderLeft: `5px solid ${job.location.includes('UK') ? '#40E687' : '#203A43'}`
                   }}
                   onClick={() => handleShowDetails(job)}
                   onMouseEnter={(e) => {
@@ -200,30 +186,45 @@ export default function Career() {
                 >
                   <Card.Body className="p-4 d-flex flex-column">
                     <div className="mb-3">
-                      <Badge className="me-2" style={{ backgroundColor: "#E8F5E9", color: "#2E7D32" }}>
-                        {job.type}
+                      <Badge 
+                        className="me-2" 
+                        style={{ 
+                          backgroundColor: job.location.includes('UK') ? "#E8F5E9" : "#E3F2FD", 
+                          color: job.location.includes('UK') ? "#2E7D32" : "#1976D2"
+                        }}
+                      >
+                        <FaMapMarkerAlt className="me-1" /> {job.location}
                       </Badge>
-                      <Badge style={{ backgroundColor: "#E3F2FD", color: "#1976D2" }}>
-                        {job.location}
+                      <Badge 
+                        style={{ 
+                          backgroundColor: "#FFF3E0", 
+                          color: "#F57C00"
+                        }}
+                      >
+                        <FaBriefcase className="me-1" /> {job.type}
                       </Badge>
                     </div>
 
-                    <Card.Title className="fw-bold mb-3 h5" style={{ color: "#203A43" }}>
+                    <Card.Title className="fw-bold mb-3 h4" style={{ color: "#203A43" }}>
                       {job.title}
                     </Card.Title>
+                    
+                    <div className="mb-3">
+                      <h6 className="text-muted">For the {job.location.includes('UK') ? 'UK Office' : 'Bangladesh Office'}</h6>
+                    </div>
 
                     <Card.Text className="text-muted mb-4" style={{ fontSize: "0.95rem", flex: 1 }}>
-                      {job.description.substring(0, 120)}...
+                      {job.description.substring(0, 140)}...
                     </Card.Text>
 
                     <div className="mt-auto pt-3 border-top d-flex align-items-center justify-content-between">
-                      <span className="fw-bold text-dark">{job.salary}</span>
+                      <span className="fw-bold" style={{ color: "#203A43" }}>{job.salary}</span>
                       <Button 
                         variant="link" 
-                        className="p-0 text-decoration-none fw-bold"
+                        className="p-0 text-decoration-none fw-bold d-flex align-items-center"
                         style={{ color: "#203A43" }}
                       >
-                        Details <FaArrowRight size={12} className="ms-1" />
+                        View Details <FaArrowRight size={12} className="ms-2" />
                       </Button>
                     </div>
                   </Card.Body>
@@ -239,6 +240,48 @@ export default function Career() {
           )}
         </Row>
       </Container>
+
+      {/* --- FOOTER SECTION --- */}
+      <footer 
+        style={{ 
+          backgroundColor: "#203A43",
+          color: "white",
+          padding: "60px 0 30px",
+          marginTop: "80px"
+        }}
+      >
+        <Container>
+          <Row className="text-center text-md-start">
+            <Col md={6} className="mb-4">
+              <h4 className="fw-bold mb-3">Join Our Team</h4>
+              <p className="opacity-75" style={{ maxWidth: "500px" }}>
+                At LYT Global, we believe in nurturing talent and providing opportunities 
+                for growth. If you don't see a position that matches your skills but believe 
+                you can contribute, send us your CV at:
+              </p>
+              <a 
+                href="mailto:careers@lyt-global.com" 
+                className="text-decoration-none fw-bold d-inline-flex align-items-center mt-2"
+                style={{ color: "#40E687" }}
+              >
+                <FaEnvelope className="me-2" /> careers@lyt-global.com
+              </a>
+            </Col>
+            <Col md={6} className="mb-4">
+              <h5 className="fw-bold mb-3">Why Work With Us?</h5>
+              <ul className="list-unstyled opacity-75">
+                <li className="mb-2">• Competitive compensation packages</li>
+                <li className="mb-2">• Professional development opportunities</li>
+                <li className="mb-2">• Collaborative work environment</li>
+                <li className="mb-2">• Make a real impact in education sector</li>
+              </ul>
+            </Col>
+          </Row>
+          <div className="text-center pt-4 mt-4 border-top border-secondary opacity-50">
+            <p className="mb-0 small">© {new Date().getFullYear()} LYT Global. All rights reserved.</p>
+          </div>
+        </Container>
+      </footer>
 
       {/* --- JOB DETAILS MODAL --- */}
       <Modal
@@ -256,6 +299,18 @@ export default function Career() {
             </Modal.Title>
             <div className="mt-2 text-muted">
               <FaMapMarkerAlt className="me-1" /> {selectedJob?.location} • <FaClock className="ms-3 me-1" /> {selectedJob?.type}
+            </div>
+            <div className="mt-1">
+              <Badge 
+                bg="info" 
+                className="mt-2"
+                style={{ 
+                  backgroundColor: selectedJob?.location.includes('UK') ? "#40E687" : "#203A43",
+                  color: "white"
+                }}
+              >
+                For the {selectedJob?.location.includes('UK') ? 'UK Office' : 'Bangladesh Office'}
+              </Badge>
             </div>
           </div>
         </Modal.Header>
