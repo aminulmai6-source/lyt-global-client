@@ -17,6 +17,11 @@ import ApplicationForm from "../pages/Career/ApplicationForm/ApplicationForm";
 import Services from "../pages/Services/Services";
 import Business from "../pages/Business/Business";
 import Students from "../pages/Students/Students";
+import MyCases from "../pages/Dashboard/Cases/MyCases";
+import CaseDetails from "../pages/Dashboard/Cases/CaseDetails";
+import GenerateDocuments from "../pages/Dashboard/Documents/GenerateDocuments";
+import DemoDashboard from "../pages/Demo/DemoDashboard";
+import DemoDocuments from "../pages/Demo/DemoDocuments";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +51,16 @@ const router = createBrowserRouter([
     ],
   },
 
+  // Demo Dashboard (no auth required)
+  {
+    path: "/demo-dashboard",
+    element: <DemoDashboard />,
+  },
+  {
+    path: "/demo-documents",
+    element: <DemoDocuments />,
+  },
+
   // {
   //   path: "/chatbot",
   //   element: <Chatbot />,
@@ -65,6 +80,28 @@ const router = createBrowserRouter([
       // { path: "payments", element: <UserPayments /> },
       { path: "profile", element: <UserProfile /> },
       // { path: "reviews", element: <UserReviews /> },
+
+      // Caseworker routes
+      { path: "my-cases", element: <MyCases /> },
+      { path: "new-assignments", element: <MyCases /> },
+      { path: "documents", element: <GenerateDocuments /> },
+      { path: "cases/:caseId", element: <CaseDetails /> },
+      { path: "cases/:caseId/generate-documents", element: <GenerateDocuments /> },
+      { path: "cases/:caseId/documents", element: <GenerateDocuments /> },
+
+      // Manager routes
+      { path: "manager", element: <MyCases /> },
+      { path: "all-cases", element: <MyCases /> },
+      { path: "assign-cases", element: <MyCases /> },
+      { path: "team", element: <UserProfile /> },
+      { path: "reports", element: <UserProfile /> },
+
+      // Admin routes
+      { path: "admin", element: <MyCases /> },
+      { path: "admin/cases", element: <MyCases /> },
+      { path: "admin/reports", element: <UserProfile /> },
+      { path: "manage-users", element: <UserProfile /> },
+      { path: "settings", element: <UserProfile /> },
 
       // admin routes (only accessible by admin)
       // {
